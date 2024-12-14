@@ -44,11 +44,10 @@ function cscan_man(requestSequenceCscan, headCscan, sizeCscan) {
     }
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-  totalSeekCountCscan =
-      Math.abs(sizeCscan -
-          headCscan +
-          sizeCscan +
-          requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
+  totalSeekCountCscan = Math.abs(sizeCscan - headCscan) +
+                      sizeCscan +
+                      requestFinalOrderCscan[requestFinalOrderCscan.length - 1];
+
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
 

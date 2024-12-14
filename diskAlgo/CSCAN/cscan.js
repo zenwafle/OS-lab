@@ -11,50 +11,46 @@ function isValidInputNumbers(requestSequence, head) {
 }
 
 
-function cscan_man(requestSequenceCscan, headCscan, sizeCscan) {
-  let requestFinalOrderCscan = [headCscan];
-  let totalSeekCountCscan = 0;
-
-  // Sort the request sequence in ascending order
-  let requestSequenceCscanSorted = requestSequenceCscan.slice().sort(function (a, b) {
-    return a - b;
+function cscan_man(requestSequenceCscan, headCscan) {
+  requestFinalOrderCscan = [headCscan];
+  tmp = 0;
+  //Descending Order
+  tmpAry = [];
+  for(let i = 0; i < requestSequenceCscan.length; ++i) {
+    tmpAry.push(requestSequenceCscan[i]);
+  }
+  requestSequenceCscanSorted = tmpAry.sort(function (a, b) {
+    return b - a;
   });
 
-  // Find the split point where requests are greater than the head
-  let tmp = 0;
-  for (let i = 0; i < requestSequenceCscanSorted.length; ++i) {
-    if (requestSequenceCscanSorted[i] > headCscan) {
+  for (i = 0; i < requestSequenceCscanSorted.length; ++i) {
+    if (headCscan > requestSequenceCscanSorted[i]) {
       tmp = i;
       break;
     }
   }
-
-  // Add requests to the right of the head
-  for (let i = tmp; i < requestSequenceCscanSorted.length; ++i) {
+  for (i = tmp - 1; i >= 0; --i) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-
-  // Add the boundary (disk size)
-  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== sizeCscan) {
-    requestFinalOrderCscan.push(sizeCscan);
+  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== 199) {
+    requestFinalOrderCscan.push(199);
   }
-
-  // Add requests to the left of the head
-  requestFinalOrderCscan.push(0); // Jump to the start
-  for (let i = 0; i < tmp; ++i) {
+  for (i = requestSequenceCscanSorted.length - 1; i >= tmp; --i) {
+    if (
+        i === requestSequenceCscanSorted.length - 1 &&
+        requestSequenceCscanSorted[i] !== 0
+    ) {
+      requestFinalOrderCscan.push(0);
+    }
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-
-  // Calculate total seek count
-  for (let i = 1; i < requestFinalOrderCscan.length; ++i) {
-    totalSeekCountCscan += Math.abs(
-      requestFinalOrderCscan[i] - requestFinalOrderCscan[i - 1]
-    );
-  }
-
+  totalSeekCountCscan =
+      Math.abs(199 -
+          headCscan +
+          199 +
+          requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
-
 
 
 function resetCscanResult() {
@@ -74,9 +70,6 @@ function cscan_click() {
 
   let requestSequenceCscan = document.getElementById("Sequence").value;
   let headCscan = document.getElementById("Head").value;
-  let sizeCscan = document.getElementById("Size").value;
-  headCscan = parseInt(headCscan, 10);
-  sizeCscan = parseInt(sizeCscan, 10);
   requestSequenceCscan = requestSequenceCscan
       .split(/ |,/)
       .filter(function (character) {
@@ -127,7 +120,7 @@ function cscan_click() {
     return;
   }
 
-  const result = cscan_man(requestSequenceCscan, headCscan, sizeCscan);
+  const result = cscan_man(requestSequenceCscan, headCscan);
   let ele = document.getElementById('cscan_totalSeekCount');
   ele.innerText = result[0];
   ele = document.getElementById('cscan_finalOrder');

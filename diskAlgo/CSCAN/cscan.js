@@ -122,7 +122,7 @@ function cscan_click() {
     return;
   }
 
-  const result = cscan_man(requestSequenceCscan, headCscan);
+  const result = cscan_man(requestSequenceCscan, headCscan, size);
   let ele = document.getElementById('cscan_totalSeekCount');
   ele.innerText = result[0];
   ele = document.getElementById('cscan_finalOrder');

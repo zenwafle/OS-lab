@@ -70,6 +70,8 @@ function cscan_click() {
   let requestSequenceCscan = document.getElementById("Sequence").value;
   let headCscan = document.getElementById("Head").value;
   let sizeCscan = document.getElementById("Size").value;
+  headCscan = parseInt(headCscan, 10);
+  sizeCscan = parseInt(sizeCscan, 10);
   requestSequenceCscan = requestSequenceCscan
       .split(/ |,/)
       .filter(function (character) {

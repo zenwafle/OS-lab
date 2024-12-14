@@ -32,7 +32,7 @@ function cscan_man(requestSequenceCscan, headCscan, sizeCscan) {
   for (i = tmp - 1; i >= 0; --i) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== sizeCscan.length) {
+  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== sizeCscan) {
     requestFinalOrderCscan.push(sizeCscan);
   }
   for (i = requestSequenceCscanSorted.length - 1; i >= tmp; --i) {
@@ -45,9 +45,9 @@ function cscan_man(requestSequenceCscan, headCscan, sizeCscan) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
   totalSeekCountCscan =
-      Math.abs(sizeCscan.length -
+      Math.abs(sizeCscan -
           headCscan +
-          sizeCscan.length +
+          sizeCscan +
           requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
@@ -121,7 +121,7 @@ function cscan_click() {
     return;
   }
 
-  const result = cscan_man(requestSequenceCscan, headCscan);
+  const result = cscan_man(requestSequenceCscan, headCscan, sizeCscan);
   let ele = document.getElementById('cscan_totalSeekCount');
   ele.innerText = result[0];
   ele = document.getElementById('cscan_finalOrder');

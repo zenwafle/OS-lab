@@ -11,7 +11,7 @@ function isValidInputNumbers(requestSequence, head) {
 }
 
 
-function cscan_man(requestSequenceCscan, headCscan) {
+function cscan_man(requestSequenceCscan, headCscan, size) {
   requestFinalOrderCscan = [headCscan];
   tmp = 0;
   //Descending Order
@@ -32,8 +32,8 @@ function cscan_man(requestSequenceCscan, headCscan) {
   for (i = tmp - 1; i >= 0; --i) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== 199) {
-    requestFinalOrderCscan.push(199);
+  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== size -1) {
+    requestFinalOrderCscan.push(size - 1);
   }
   for (i = requestSequenceCscanSorted.length - 1; i >= tmp; --i) {
     if (
@@ -45,9 +45,9 @@ function cscan_man(requestSequenceCscan, headCscan) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
   totalSeekCountCscan =
-      Math.abs(199 -
+      Math.abs((size -1) -
           headCscan +
-          199 +
+          (size - 1) +
           requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
@@ -70,6 +70,8 @@ function cscan_click() {
 
   let requestSequenceCscan = document.getElementById("Sequence").value;
   let headCscan = document.getElementById("Head").value;
+  let size = document.getElementById("Size).value;
+  size =+size;    
   requestSequenceCscan = requestSequenceCscan
       .split(/ |,/)
       .filter(function (character) {

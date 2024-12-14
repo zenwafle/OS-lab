@@ -1,10 +1,10 @@
 function isValidInputNumbers(requestSequence, head) {
     for (i = 0; i < requestSequence.length; ++i) {
-      if (requestSequence[i] > 199 || requestSequence[i] < 0) {
+      if (requestSequence[i] > 20000 || requestSequence[i] < 0) {
         return false;
       }
     }
-    if (head > 199 || head < 0) {
+    if (head > 20000 || head < 0) {
       return false;
     }
     return true;

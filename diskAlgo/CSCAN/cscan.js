@@ -70,7 +70,7 @@ function cscan_click() {
 
   let requestSequenceCscan = document.getElementById("Sequence").value;
   let headCscan = document.getElementById("Head").value;
-  let size = document.getElementById("Size).value;
+  let size = document.getElementById("Size").value;
   size =+size;    
   requestSequenceCscan = requestSequenceCscan
       .split(/ |,/)

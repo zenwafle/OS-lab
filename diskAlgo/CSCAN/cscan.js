@@ -48,7 +48,7 @@ function cscan_man(requestSequenceCscan, headCscan) {
       Math.abs(5000 -
           headCscan +
           5000 +
-          requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
+          requestFinalOrderCscan[requestFinalOrderCscan.length - 3]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
 

@@ -11,7 +11,7 @@ function isValidInputNumbers(requestSequence, head) {
 }
 
 
-function cscan_man(requestSequenceCscan, headCscan, size) {
+function cscan_man(requestSequenceCscan, headCscan) {
   requestFinalOrderCscan = [headCscan];
   tmp = 0;
   //Descending Order
@@ -32,8 +32,8 @@ function cscan_man(requestSequenceCscan, headCscan, size) {
   for (i = tmp - 1; i >= 0; --i) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== size -1) {
-    requestFinalOrderCscan.push(size - 1);
+  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== 199) {
+    requestFinalOrderCscan.push(199);
   }
   for (i = requestSequenceCscanSorted.length - 1; i >= tmp; --i) {
     if (
@@ -45,93 +45,82 @@ function cscan_man(requestSequenceCscan, headCscan, size) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
   totalSeekCountCscan =
-      Math.abs((size -1) -
+      Math.abs(199 -
           headCscan +
-          (size - 1) +
+          199 +
           requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
 
 
 function resetCscanResult() {
-    let ele = document.getElementById('cscan_totalSeekCount');
-    ele.innerText = '';
-    ele = document.getElementById('cscan_finalOrder');
-    ele.innerText = '';
-    ele = document.getElementById('cscan_averageSeekCount');
-    ele.innerText = '';
-    ele = document.getElementById('chartContainer');
-    ele.style.display = 'none';
+  let ele = document.getElementById('cscan_totalSeekCount');
+  ele.innerText = '';
+  ele = document.getElementById('cscan_finalOrder');
+  ele.innerText = '';
+  ele = document.getElementById('cscan_averageSeekCount');
+  ele.innerText = '';
+  ele = document.getElementById('chartContainer');
+  ele.style.display = 'none';
+  ele = document.getElementById('compareBtn');
+  ele.style.display = 'none';
 }
-
 
 function cscan_click() {
-    let requestSequenceCscan = document.getElementById("Sequence").value;
-    let headCscan = document.getElementById("Head").value;
-    let size = document.getElementById("Size").value; // Retrieve size input
-    size = +size; // Convert size to a number
 
-    if (!size || size <= 0) {
-        alert("Please enter a valid size greater than 0.");
-        return;
+  let requestSequenceCscan = document.getElementById("Sequence").value;
+  let headCscan = document.getElementById("Head").value;
+  requestSequenceCscan = requestSequenceCscan
+      .split(/ |,/)
+      .filter(function (character) {
+        return character !== "";
+      });
+  if (requestSequenceCscan.length === 0) {
+    alert(
+        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
+    );
+    return;
+  }
+
+  for (i = 0; i < requestSequenceCscan.length; ++i) {
+    if (
+        !Number.isInteger(+requestSequenceCscan[i]) ||
+        !(+requestSequenceCscan[i] >= 0)
+    ) {
+      alert(
+          "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
+      );
+      return;
     }
+  }
+  if (headCscan.length === 0) {
+    alert(
+        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
+    );
+    return;
+  }
+  if (
+      !Number.isInteger(+headCscan) || Number.isInteger(+headCscan) < 0
+  ) {
+    alert(
+        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
+    );
+    return;
+  }
+  headCscan = +headCscan;
+  requestSequenceCscan = requestSequenceCscan.toString()
+      .split(/ |,/)
+      .filter(function (character) {
+        return character !== "";
+      }).map(function(a){return +a;});
+  if(!isValidInputNumbers(requestSequenceCscan, headCscan)) {
+    alert(
+        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
+    );
+    return;
+  }
 
-    console.log("Size value:", size); // Debugging: Verify the size value
-    
-    requestSequenceCscan = requestSequenceCscan
-        .split(/ |,/)
-        .filter(function (character) {
-            return character !== "";
-        });
-
-    if (requestSequenceCscan.length === 0) {
-        alert(
-            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
-        );
-        return;
-    }
-
-    for (i = 0; i < requestSequenceCscan.length; ++i) {
-        if (
-            !Number.isInteger(+requestSequenceCscan[i]) ||
-            !(+requestSequenceCscan[i] >= 0 && +requestSequenceCscan[i] < size)
-        ) {
-            alert(
-                `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
-            );
-            return;
-        }
-    }
-    if (headCscan.length === 0 || !(+headCscan >= 0 && +headCscan < size)) {
-        alert(
-            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
-        );
-        return;
-    }
-
-    headCscan = +headCscan;
-    requestSequenceCscan = requestSequenceCscan.toString()
-        .split(/ |,/)
-        .filter(function (character) {
-            return character !== "";
-        }).map(function(a){return +a;});
-
-    if (!isValidInputNumbers(requestSequenceCscan, headCscan)) {
-        alert(
-            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
-        );
-        return;
-    }
-
-    const result = cscan_man(requestSequenceCscan, headCscan, size);
-    let ele = document.getElementById('cscan_totalSeekCount');
-    ele.innerText = `Total seek count is: ${result[0]}`;
-    ele = document.getElementById('cscan_finalOrder');
-    ele.innerText = 'Sequence of operations\' processing: ' + result[1].join(', ');
-}
-
-
-  const result = cscan_man(requestSequenceCscan, headCscan, size);
+  const result = cscan_man(requestSequenceCscan, headCscan);
   let ele = document.getElementById('cscan_totalSeekCount');
   ele.innerText = result[0];
   ele = document.getElementById('cscan_finalOrder');

@@ -54,73 +54,82 @@ function cscan_man(requestSequenceCscan, headCscan, size) {
 
 
 function resetCscanResult() {
-  let ele = document.getElementById('cscan_totalSeekCount');
-  ele.innerText = '';
-  ele = document.getElementById('cscan_finalOrder');
-  ele.innerText = '';
-  ele = document.getElementById('cscan_averageSeekCount');
-  ele.innerText = '';
-  ele = document.getElementById('chartContainer');
-  ele.style.display = 'none';
-  ele = document.getElementById('compareBtn');
-  ele.style.display = 'none';
+    let ele = document.getElementById('cscan_totalSeekCount');
+    ele.innerText = '';
+    ele = document.getElementById('cscan_finalOrder');
+    ele.innerText = '';
+    ele = document.getElementById('cscan_averageSeekCount');
+    ele.innerText = '';
+    ele = document.getElementById('chartContainer');
+    ele.style.display = 'none';
 }
 
+
 function cscan_click() {
+    let requestSequenceCscan = document.getElementById("Sequence").value;
+    let headCscan = document.getElementById("Head").value;
+    let size = document.getElementById("Size").value; // Retrieve size input
+    size = +size; // Convert size to a number
 
-  let requestSequenceCscan = document.getElementById("Sequence").value;
-  let headCscan = document.getElementById("Head").value;
-  let size = document.getElementById("Size").value;
-  size =+size;    
-  requestSequenceCscan = requestSequenceCscan
-      .split(/ |,/)
-      .filter(function (character) {
-        return character !== "";
-      });
-  if (requestSequenceCscan.length === 0) {
-    alert(
-        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
-    );
-    return;
-  }
-
-  for (i = 0; i < requestSequenceCscan.length; ++i) {
-    if (
-        !Number.isInteger(+requestSequenceCscan[i]) ||
-        !(+requestSequenceCscan[i] >= 0)
-    ) {
-      alert(
-          "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
-      );
-      return;
+    if (!size || size <= 0) {
+        alert("Please enter a valid size greater than 0.");
+        return;
     }
-  }
-  if (headCscan.length === 0) {
-    alert(
-        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
-    );
-    return;
-  }
-  if (
-      !Number.isInteger(+headCscan) || Number.isInteger(+headCscan) < 0
-  ) {
-    alert(
-        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
-    );
-    return;
-  }
-  headCscan = +headCscan;
-  requestSequenceCscan = requestSequenceCscan.toString()
-      .split(/ |,/)
-      .filter(function (character) {
-        return character !== "";
-      }).map(function(a){return +a;});
-  if(!isValidInputNumbers(requestSequenceCscan, headCscan)) {
-    alert(
-        "Got invalid input!!! Integral value(x) should be in the range 0<=x<=199"
-    );
-    return;
-  }
+
+    console.log("Size value:", size); // Debugging: Verify the size value
+    
+    requestSequenceCscan = requestSequenceCscan
+        .split(/ |,/)
+        .filter(function (character) {
+            return character !== "";
+        });
+
+    if (requestSequenceCscan.length === 0) {
+        alert(
+            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
+        );
+        return;
+    }
+
+    for (i = 0; i < requestSequenceCscan.length; ++i) {
+        if (
+            !Number.isInteger(+requestSequenceCscan[i]) ||
+            !(+requestSequenceCscan[i] >= 0 && +requestSequenceCscan[i] < size)
+        ) {
+            alert(
+                `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
+            );
+            return;
+        }
+    }
+    if (headCscan.length === 0 || !(+headCscan >= 0 && +headCscan < size)) {
+        alert(
+            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
+        );
+        return;
+    }
+
+    headCscan = +headCscan;
+    requestSequenceCscan = requestSequenceCscan.toString()
+        .split(/ |,/)
+        .filter(function (character) {
+            return character !== "";
+        }).map(function(a){return +a;});
+
+    if (!isValidInputNumbers(requestSequenceCscan, headCscan)) {
+        alert(
+            `Got invalid input!!! Integral value(x) should be in the range 0<=x<=${size - 1}`
+        );
+        return;
+    }
+
+    const result = cscan_man(requestSequenceCscan, headCscan, size);
+    let ele = document.getElementById('cscan_totalSeekCount');
+    ele.innerText = `Total seek count is: ${result[0]}`;
+    ele = document.getElementById('cscan_finalOrder');
+    ele.innerText = 'Sequence of operations\' processing: ' + result[1].join(', ');
+}
+
 
   const result = cscan_man(requestSequenceCscan, headCscan, size);
   let ele = document.getElementById('cscan_totalSeekCount');

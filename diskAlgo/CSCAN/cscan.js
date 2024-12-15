@@ -60,8 +60,8 @@ function resetCscanResult() {
   ele.innerText = '';
   ele = document.getElementById('cscan_averageSeekCount');
   ele.innerText = '';
-  ele = document.getElementById('chartContainer');
-  ele.style.display = 'none';
+  //ele = document.getElementById('chartContainer');
+  //ele.style.display = 'none';
   ele = document.getElementById('compareBtn');
   ele.style.display = 'none';
 }
@@ -137,7 +137,7 @@ function cscan_click() {
   }
   ele = document.getElementById('cscan_averageSeekCount');
   ele.innerText = (result[0]/(result[1].length-1)).toFixed(2);
-  ele = document.getElementById('chartContainer');
+  //ele = document.getElementById('chartContainer');
   ele.style.display = 'block';
 
   const ary = [];
@@ -145,26 +145,8 @@ function cscan_click() {
     ary.push({y: p});
   });
 
-  const chart = new CanvasJS.Chart("chartContainer", {
-    animationEnabled: true,
-    animationDuration: 300 * (ary.length - 1),
-    theme: "light2",
-    zoomEnabled: true,
-    title:{
-      text: ""
-    },
-    axisY: {
-      title: "Disk Numbers",
-      titleFontColor: "rgb(0,0,0)"
-    },
-    data: [{
-      type: "line",
-      indexLabelFontSize: 16,
-      dataPoints: ary
-    }]
-  });
-  chart.render();
-  document.querySelector("#betweenButton").innerHTML = '<br> <div style="text-align: center">  <button type="button"  class="btn btn-outline-primary" id="compareBtn">COMPARE</button> </div>'+ '<div id="myModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div id="chartContainer2"></div><div id="title"></div><div id="answers"></div></div></div></div>' ;
+  //chart.render();
+  //document.querySelector("#betweenButton").innerHTML = '<br> <div style="text-align: center">  <button type="button"  class="btn btn-outline-primary" id="compareBtn">COMPARE</button> </div>'+ '<div id="myModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div id="chartContainer2"></div><div id="title"></div><div id="answers"></div></div></div></div>' ;
 
   let modal = document.getElementById("myModal");
 

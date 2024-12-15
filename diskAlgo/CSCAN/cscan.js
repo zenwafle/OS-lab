@@ -48,8 +48,8 @@ function cscan_man(requestSequenceCscan, headCscan) {
       Math.abs(5000 -
           headCscan +
           5000 +
-          requestFinalOrderCscan[requestFinalOrderCscan.length - 1]-2);
-  return [totalSeekCountCscan, requestFinalOrderCscan];
+          requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
+  return [(totalSeekCountCscan-2), requestFinalOrderCscan];
 }
 
 
@@ -120,7 +120,7 @@ function cscan_click() {
     return;
   }
 
-  const result = cscan_man(requestSequenceCscan, headCscan)-2;
+  const result = cscan_man(requestSequenceCscan, headCscan);
   let ele = document.getElementById('cscan_totalSeekCount');
   ele.innerText = result[0];
   ele = document.getElementById('cscan_finalOrder');

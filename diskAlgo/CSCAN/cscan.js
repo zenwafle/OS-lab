@@ -32,8 +32,8 @@ function cscan_man(requestSequenceCscan, headCscan) {
   for (i = tmp - 1; i >= 0; --i) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
-  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== 199) {
-    requestFinalOrderCscan.push(199);
+  if (requestFinalOrderCscan[requestFinalOrderCscan.length - 1] !== 2000) {
+    requestFinalOrderCscan.push(2000);
   }
   for (i = requestSequenceCscanSorted.length - 1; i >= tmp; --i) {
     if (
@@ -45,9 +45,9 @@ function cscan_man(requestSequenceCscan, headCscan) {
     requestFinalOrderCscan.push(requestSequenceCscanSorted[i]);
   }
   totalSeekCountCscan =
-      Math.abs(199 -
+      Math.abs(2000 -
           headCscan +
-          199 +
+          2000 +
           requestFinalOrderCscan[requestFinalOrderCscan.length - 1]);
   return [totalSeekCountCscan, requestFinalOrderCscan];
 }
